@@ -1,22 +1,19 @@
 const axios = require('axios').default;
 
-const getGeoLocation =  async() =>{
+const getGeoLocation =  async(location) =>{
 
-    let ret;
-    let options = {
-        method: 'GET',
-        url: 'https://ip-geolocation-ipwhois-io.p.rapidapi.com/json/',
-        headers: {
-          'x-rapidapi-host': 'ip-geolocation-ipwhois-io.p.rapidapi.com',
-          'x-rapidapi-key': '8590fd2a06mshedac11f4703d28ep1631b3jsnc22317e6faa2'
-        }
-      };
+    let ret = {};
+    //GeocodignApi Documentation :   https://docs.mapbox.com/api/search/geocoding/
+    const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?access_token=pk.eyJ1Ijoic2hhZmlxLXVyLXJlaG1hbiIsImEiOiJja3pkdjh4cnQwZTB0Mm9wZDZ3aHZicHZoIn0.FJFupmNCS836h2rDdNvxCg&limit=1`;
       
-     await axios.request(options).then((response) => {
-          ret = response.data
+     await axios.request(url).then((response) => {
+      let  {center}  = response.data.features[0];
+      ret.longitude = center[0];
+      ret.latitude = center[1];
       }).catch((error) => {
           console.error(error);
       });
+
     return ret;
 }
 
