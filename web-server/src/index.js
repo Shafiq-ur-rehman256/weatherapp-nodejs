@@ -5,8 +5,27 @@ const { getGeoLocation } = require('../utils/index');
 
 const app = express();
 const publicDirectoryPath = path.join(__dirname, '../public');
+
+app.set('view engine', 'hbs')
 app.use(express.static(publicDirectoryPath));
 
+app.get('/home', (req, res) => {
+    res.render('index', {
+        h1: 'Weather App'
+    });
+});
+
+app.get('/about', (req,res)=>{
+    res.render('about', {
+        h1:'About page'
+    })
+});
+
+app.get('/help', (req,res)=>{
+    res.render('help',{
+        h1:'help page'
+    })
+});
 
 app.get('/weather', async (req, res) => {
     let { location } = req.query;
