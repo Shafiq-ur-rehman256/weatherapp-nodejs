@@ -40,6 +40,12 @@ app.get('/help', (req,res)=>{
     })
 });
 
+app.get('*', (req, res)=>{
+    res.render('error',{
+        h1:'Page Not Found',
+        name: 'fsCode'
+    })
+})
 app.get('/weather', async (req, res) => {
     let { location } = req.query;
     let { latitude, longitude } = await getGeoLocation(location); // this fuction gets the coordinates of giving location 
